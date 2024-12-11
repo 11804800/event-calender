@@ -50,6 +50,7 @@ const EditEvent = ({
     });
   }
 
+  //for form submit
   function OnFormSubmit() {
     if (Event.name && Event.startTime && Event.endTime) {
       if (Event.startTime > Event.endTime) {
