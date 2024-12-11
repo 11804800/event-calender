@@ -45,7 +45,7 @@ const EditEvent = ({
   function IsTimeOverLapping(startTime: string, endTime: string) {
     const DateKey = format(SelectedDate);
     const list = events[DateKey];
-    return list?.filter((item:any,index:number)=>index!==Index)?.some((item: any) => {
+    return list?.filter((__item:any,index:number)=>index!==Index)?.some((item: any) => {
       return startTime <= item.endTime && endTime >= item.startTime;
     });
   }

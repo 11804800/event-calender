@@ -39,7 +39,7 @@ function App() {
   function HandleDelete(EventIndex: number) {
     if (SelectedDate) {
       const newEvent = events[format(SelectedDate)].filter(
-        (item: any, index: number) => index !== EventIndex
+        (__item: any, index: number) => index !== EventIndex
       );
       const EventData = { ...events, [format(SelectedDate)]: newEvent };
       setEvents(EventData);
@@ -82,16 +82,32 @@ function App() {
     e.dataTransfer.setData("task", JSON.stringify(newEvent));
   };
 
+  //checking for drag and drop
+  function IsTimeOverLapping(startTime: string, endTime: string,date:Date) {
+    const DateKey = format(date);
+    const list = events[DateKey];
+    return list?.some((item: any) => {
+      return startTime <= item.endTime && endTime >= item.startTime;
+    });
+  }
+
   const HandleDragDrop = (e: any, date: Date) => {
     const DateKey = format(date);
     //getting the transfer data
     const newEvent = JSON.parse(e.dataTransfer.getData("task"));
-    let EventData = {
-      ...events,
-      [DateKey]: [...(events[DateKey] || []), newEvent],
-    };
-    setEvents(EventData);
-    localStorage.setItem("events", JSON.stringify(EventData));
+    if(IsTimeOverLapping(newEvent.startTime,newEvent.endTime,date))
+    {
+      alert("Event is Overlapping with previous schedules")
+    }
+    else
+    {
+      let EventData = {
+        ...events,
+        [DateKey]: [...(events[DateKey] || []), newEvent],
+      };
+      setEvents(EventData);
+      localStorage.setItem("events", JSON.stringify(EventData));
+    }
   };
 
   const HandleDragOver = (e: any) => {
