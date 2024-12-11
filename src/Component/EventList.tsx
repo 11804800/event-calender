@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "../components/ui/button";
 import EditEvent from "./EditEvent";
+import { Input } from "../components/ui/input";
 const EventList = ({
   SelectedDate,
   SetSidebarVisible,
@@ -19,6 +20,8 @@ const EventList = ({
   const { format } = new Intl.DateTimeFormat("en", {
     dateStyle: "full",
   });
+
+  const [Search,setSearch]=useState<string>("");
 
   const [EditModalActive,setEditModalActive]=useState<boolean>(false);
   const [Index,setIndex]=useState(-1);
@@ -48,6 +51,13 @@ const EventList = ({
         <p className="py-2 px-4 text-sm font-medium">
           {SelectedDate && format(SelectedDate)}
         </p>
+        {
+          eventList?.length>0 &&
+          <div className="p-2 flex gap-1">
+            <Input placeholder="Keyword to filer events" onChange={(e)=>setSearch(e.target.value)}/>
+            <Button variant="outline"><img src="/search.png" width="42"/></Button>
+          </div>
+        }
         <div className="w-full h-[80%] flex flex-col justify-center items-center md:justify-start">
           {eventList?.length ? (
             <>
@@ -55,7 +65,7 @@ const EventList = ({
                 Schedule Another
               </Button>
               <div className="flex flex-col gap-2 w-[80%] h-full p-2 overflow-y-auto">
-                {eventList?.map((item: any, index: number) => {
+                {eventList?.filter((item:any)=>item?.name.includes(Search))?.map((item: any, index: number) => {
                   return (
                     <div
                       key={index}
@@ -70,12 +80,12 @@ const EventList = ({
                         {item?.description && item?.description}
                       </p>
                       <div className="w-full justify-end items-end  flex gap-3">
-                        <Button variant="ghost" className="text-blue-700" onClick={()=>handleEdit(index)}>
+                        <Button variant="ghost" className="text-blue-700 text-[12px]" onClick={()=>handleEdit(index)}>
                           Edit
                         </Button>
                         <Button
                           variant="ghost"
-                          className="text-[brown]"
+                          className="text-[brown] text-[12px]"
                           onClick={() => HandleDelete(index)}
                         >
                           Delete

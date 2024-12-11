@@ -55,7 +55,7 @@ const CalenderGrid = ({ currentDate,SetSidebarVisible,setSelectedDate,events }: 
             <div key={index} className={`flex  justify-center border p-3`} onClick={()=>Event(item)}>
               {item ? item?.getDate() : null}
               {
-                events[format(item)] && <span className="p-1 bg-blue-800 rounded-full w-fit h-fit"></span>
+                events[format(item)]?.length>0 && <span className="p-1 bg-blue-800 rounded-full w-fit h-fit"></span>
               }
             </div>
           );

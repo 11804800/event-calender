@@ -48,7 +48,6 @@ function App() {
 
   function HandleEdit(EventIndex:number,Event:any)
   {
-    console.log(EventIndex);
     if(SelectedDate)
       {
         let newEvent=events[format(SelectedDate)];
