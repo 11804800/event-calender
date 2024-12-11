@@ -83,7 +83,7 @@ const CreateEventModal = ({
   }
 
   return (
-    <div className="absolute top-0 left-0 w-[100%] h-[100dvh] bg-white md:bg-black/15 flex justify-center items-center">
+    <div className="absolute top-0 left-0 w-[100%] h-[100dvh] bg-white md:bg-black/15 flex justify-center items-center z-[9999]">
       <div className="flex flex-col gap-3 p-2 rounded md:shadow-md bg-white w-[100%] md:w-[70%] h-[80%]">
         <div className="flex justify-between items-center text-xl font-medium p-4">
           <h1>Create Event </h1>
