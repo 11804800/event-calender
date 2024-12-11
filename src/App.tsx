@@ -131,6 +131,7 @@ function App() {
           HandleDelete={HandleDelete}
           HandleEdit={HandleEdit}
           HandleDragStart={HandleDragStart}
+          setSelectedDate={setSelectedDate}
         />
       )}
       {CreateEventVisible && (

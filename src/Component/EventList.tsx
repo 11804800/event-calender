@@ -9,7 +9,8 @@ const EventList = ({
   events,
   HandleDelete,
   HandleEdit,
-  HandleDragStart
+  HandleDragStart,
+  setSelectedDate
 }: {
   SelectedDate: Date | null;
   SetSidebarVisible: any;
@@ -17,7 +18,8 @@ const EventList = ({
   events: any;
   HandleDelete: any;
   HandleEdit: any;
-  HandleDragStart:any
+  HandleDragStart:any,
+  setSelectedDate:any
 }) => {
   const { format } = new Intl.DateTimeFormat("en", {
     dateStyle: "full",
@@ -44,6 +46,7 @@ const EventList = ({
             className="hover:bg-slate-100 px-2 rounded-full"
             onClick={() => {
               SetSidebarVisible(false);
+              setSelectedDate(null);
             }}
           >
             <img src="/right.png" width="14" height="10" />
@@ -109,8 +112,8 @@ const EventList = ({
               </Button>
             </div>
           )}
-                    {
-            !eventList?.filter((item:any)=>item?.name.includes(Search)).length ?
+          {
+            eventList?.length &&  !eventList?.filter((item:any)=>item?.name.includes(Search)).length ?
             <div className="w-[100%] h-full flex justify-center">
               <p className="font-medium">Nothing Found</p>
             </div>
