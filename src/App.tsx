@@ -10,6 +10,30 @@ function App() {
   const [SidebarVisible, SetSidebarVisible] = useState<boolean>(false);
   const [SelectedDate, setSelectedDate] = useState(null);
   const [CreateEventVisible, setVisible] = useState(false);
+  //Event List for Pushing the
+  const [events, setEvents] = useState<any>({});
+
+  const { format } = new Intl.DateTimeFormat("en", {
+    dateStyle: "full",
+  });
+
+  function handleAddNewEvent(newEvent: any) {
+    //other wise it will show typescript error because its value is initially
+    if (SelectedDate) {
+      const DateKey=format(SelectedDate);
+      if (events[format(SelectedDate)]) {
+        const Object={...events,[DateKey]:[...(events[DateKey] || []),newEvent]};
+        setEvents(Object);
+      }
+      else{
+        const Object={...events,[format(SelectedDate)]:[newEvent]};
+        setEvents(Object);
+      }
+    }
+    
+  }
+
+  console.log(events);
 
   return (
     <div className="flex flex-col justify-center items-center w-full relative">
@@ -32,9 +56,13 @@ function App() {
           setVisible={setVisible}
         />
       )}
-      {
-        CreateEventVisible && <CreateEventModal setVisible={setVisible}/>
-      }
+      {CreateEventVisible && (
+        <CreateEventModal
+          setVisible={setVisible}
+          SelectedDate={SelectedDate}
+          handleAddNewEvent={handleAddNewEvent}
+        />
+      )}
     </div>
   );
 }

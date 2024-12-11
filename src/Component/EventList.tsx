@@ -1,3 +1,4 @@
+
 import { Button } from "../components/ui/button";
 const EventList = ({
   SelectedDate,
@@ -11,6 +12,8 @@ const EventList = ({
   const { format } = new Intl.DateTimeFormat("en", {
     dateStyle: "full",
   });
+
+ 
 
   return (
     <div className="w-[100%] md:w-[400px] bg-white h-[100dvh] absolute top-0 right-0 shadow-md">
