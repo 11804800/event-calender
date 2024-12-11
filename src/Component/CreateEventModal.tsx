@@ -8,14 +8,14 @@ import { useState } from "react";
 const CreateEventModal = ({
   setVisible,
   SelectedDate,
-  handleAddNewEvent
+  handleAddNewEvent,
+  events,
 }: {
   setVisible: any;
   SelectedDate: any;
-  handleAddNewEvent:any
+  handleAddNewEvent: any;
+  events: any;
 }) => {
-
-
   var regex = new RegExp("^[a-zA-Z]*$");
 
   const [Event, setEvent] = useState({
@@ -24,7 +24,7 @@ const CreateEventModal = ({
     endTime: "",
     description: "",
   });
-  const [Submitted,setSubmitted]=useState(false);
+  const [Submitted, setSubmitted] = useState(false);
 
   function OnInputChange(e: any) {
     setEvent((prev) => ({
@@ -37,12 +37,23 @@ const CreateEventModal = ({
     dateStyle: "full",
   });
 
+  function IsTimeOverLapping(startTime: string, endTime: string) {
+    const DateKey = format(SelectedDate);
+    const list = events[DateKey];
+    return list.some((item: any) => {
+      return startTime <= item.endTime && endTime >= item.startTime;
+    });
+  }
+
   function OnFormSubmit() {
-   
     if (Event.name && Event.startTime && Event.endTime) {
       if (Event.startTime > Event.endTime) {
         console.log("Please Endtime Cannot be less than start time");
-      } 
+      }
+      else if(IsTimeOverLapping(Event.startTime, Event.endTime))
+      {
+        return ;
+      }
       else if(!regex.test(Event.name))
       {
         console.log(regex.test(Event.name));
@@ -93,10 +104,14 @@ const CreateEventModal = ({
             value={Event.name}
             onChange={(e) => OnInputChange(e)}
           />
-          {Submitted && !Event.name && <p className="text-[12px] text-[brown] font-medium" >Required</p>}
-          {
-            !regex.test(Event.name) && <p className="text-[12px] text-[brown] font-medium">Numeric & Special Characters are Not Allowed</p>
-          }
+          {Submitted && !Event.name && (
+            <p className="text-[12px] text-[brown] font-medium">Required</p>
+          )}
+          {!regex.test(Event.name) && (
+            <p className="text-[12px] text-[brown] font-medium">
+              Numeric & Special Characters are Not Allowed
+            </p>
+          )}
           <div>
             <Label>Start Time</Label>
             <Input
@@ -105,7 +120,14 @@ const CreateEventModal = ({
               onChange={(e) => OnInputChange(e)}
               value={Event.startTime}
             />
-            {Submitted && !Event.startTime && <p className="text-[12px] text-[brown] font-medium" id="name-required">Required</p>}
+            {Submitted && !Event.startTime && (
+              <p
+                className="text-[12px] text-[brown] font-medium"
+                id="name-required"
+              >
+                Required
+              </p>
+            )}
           </div>
           <div>
             <Label>End Time</Label>
@@ -115,13 +137,26 @@ const CreateEventModal = ({
               onChange={(e) => OnInputChange(e)}
               value={Event.endTime}
             />
-            {Submitted && !Event.endTime && <p className="text-[12px] text-[brown] font-medium" id="name-required">Required</p>}
+            {Submitted && !Event.endTime && (
+              <p
+                className="text-[12px] text-[brown] font-medium"
+                id="name-required"
+              >
+                Required
+              </p>
+            )}
           </div>
           {Event.startTime > Event.endTime && (
             <p className="text-[12px] text-[brown] font-medium">
               Event Cannot End Before Start
             </p>
           )}
+          {
+            IsTimeOverLapping(Event.startTime, Event.endTime) && 
+            <p className="text-[12px] text-[brown] font-medium">
+            Time is Overlapping with previous events
+          </p>
+          }
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea

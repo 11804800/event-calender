@@ -1,4 +1,4 @@
-const CalenderGrid = ({ currentDate,SetSidebarVisible,setSelectedDate }: { currentDate: Date,SetSidebarVisible:any,setSelectedDate:any }) => {
+const CalenderGrid = ({ currentDate,SetSidebarVisible,setSelectedDate,events }: { currentDate: Date,SetSidebarVisible:any,setSelectedDate:any,events:any }) => {
   //getting year
   const year = currentDate.getFullYear();
   //getting month

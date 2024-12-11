@@ -33,7 +33,6 @@ function App() {
     
   }
 
-  console.log(events);
 
   return (
     <div className="flex flex-col justify-center items-center w-full relative">
@@ -48,6 +47,7 @@ function App() {
         currentDate={currentDate}
         SetSidebarVisible={SetSidebarVisible}
         setSelectedDate={setSelectedDate}
+        events={events}
       />
       {SidebarVisible && (
         <EventList
@@ -61,6 +61,7 @@ function App() {
           setVisible={setVisible}
           SelectedDate={SelectedDate}
           handleAddNewEvent={handleAddNewEvent}
+          events={events}
         />
       )}
     </div>
