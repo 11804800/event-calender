@@ -46,6 +46,18 @@ function App() {
     }
   }
 
+  function HandleEdit(EventIndex:number,Event:any)
+  {
+    console.log(EventIndex);
+    if(SelectedDate)
+      {
+        let newEvent=events[format(SelectedDate)];
+        newEvent[EventIndex]=Event;
+        const EventData={...events,[format(SelectedDate)]:newEvent};
+        setEvents(EventData);
+        localStorage.setItem("events",JSON.stringify(EventData));
+      }
+  }
 
   return (
     <div className="flex flex-col justify-center items-center w-full relative">
@@ -69,6 +81,7 @@ function App() {
           setVisible={setVisible}
           events={events}
           HandleDelete={HandleDelete}
+          HandleEdit={HandleEdit}
         />
       )}
       {CreateEventVisible && (
