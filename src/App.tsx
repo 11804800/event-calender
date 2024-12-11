@@ -11,7 +11,7 @@ function App() {
   const [SelectedDate, setSelectedDate] = useState(null);
   const [CreateEventVisible, setVisible] = useState(false);
   //Event List for Pushing the
-  const [events, setEvents] = useState<any>({});
+  const [events, setEvents] = useState<any>(JSON.parse(localStorage.getItem("events")||"{}"));
 
   const { format } = new Intl.DateTimeFormat("en", {
     dateStyle: "full",
@@ -20,17 +20,30 @@ function App() {
   function handleAddNewEvent(newEvent: any) {
     //other wise it will show typescript error because its value is initially
     if (SelectedDate) {
+      let EventData={};
       const DateKey=format(SelectedDate);
       if (events[format(SelectedDate)]) {
-        const Object={...events,[DateKey]:[...(events[DateKey] || []),newEvent]};
-        setEvents(Object);
+        EventData={...events,[DateKey]:[...(events[DateKey] || []),newEvent]};
+        setEvents(EventData);
       }
       else{
-        const Object={...events,[format(SelectedDate)]:[newEvent]};
-        setEvents(Object);
+        EventData={...events,[format(SelectedDate)]:[newEvent]};
+        setEvents(EventData);
       }
+      localStorage.setItem("events",JSON.stringify(EventData));
     }
     
+  }
+
+  function HandleDelete(EventIndex:number)
+  {
+    if(SelectedDate)
+    {
+      const newEvent=events[format(SelectedDate)].filter((item:any,index:number)=>index!==EventIndex);
+      const EventData={...events,[format(SelectedDate)]:newEvent};
+      setEvents(EventData);
+      localStorage.setItem("events",JSON.stringify(EventData));
+    }
   }
 
 
@@ -54,6 +67,8 @@ function App() {
           SetSidebarVisible={SetSidebarVisible}
           SelectedDate={SelectedDate}
           setVisible={setVisible}
+          events={events}
+          HandleDelete={HandleDelete}
         />
       )}
       {CreateEventVisible && (

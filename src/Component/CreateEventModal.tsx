@@ -40,7 +40,7 @@ const CreateEventModal = ({
   function IsTimeOverLapping(startTime: string, endTime: string) {
     const DateKey = format(SelectedDate);
     const list = events[DateKey];
-    return list.some((item: any) => {
+    return list?.some((item: any) => {
       return startTime <= item.endTime && endTime >= item.startTime;
     });
   }

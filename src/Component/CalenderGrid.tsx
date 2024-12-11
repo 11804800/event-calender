@@ -22,6 +22,11 @@ const CalenderGrid = ({ currentDate,SetSidebarVisible,setSelectedDate,events }: 
   for (let i = 1; i <= DaysInMonth; i++) {
     Dates.push(new Date(year, month, i));
   }
+ 
+
+  const { format } = new Intl.DateTimeFormat("en", {
+    dateStyle: "full",
+  });
 
   // const Today:Date=new Date();
   //for comparing if the today is same date
@@ -47,8 +52,11 @@ const CalenderGrid = ({ currentDate,SetSidebarVisible,setSelectedDate,events }: 
       <div className="grid grid-cols-7 w-full">
         {Dates.map((item: any,index:number) => {
           return (
-            <div key={index} className={` flex justify-center border p-3`} onClick={()=>Event(item)}>
+            <div key={index} className={`flex  justify-center border p-3`} onClick={()=>Event(item)}>
               {item ? item?.getDate() : null}
+              {
+                events[format(item)] && <span className="p-1 bg-blue-800 rounded-full w-fit h-fit"></span>
+              }
             </div>
           );
         })}
