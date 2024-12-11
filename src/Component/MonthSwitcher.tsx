@@ -15,7 +15,7 @@ const MonthSwitcher = ({ currentDate, setCurrentDate }:{currentDate:Date,setCurr
     );
   };
   return (
-    <div className="w-[100%] h-[100%] flex gap-4 justify-between p-3 mb-5">
+    <div className="w-[100%] h-fit flex gap-4 justify-between p-3 mb-5">
       <Button onClick={prevMonth}>Prev</Button>
       <p className="text-lg font-medium">
         {currentDate.toLocaleString("default", { month: "long" })}{" "}

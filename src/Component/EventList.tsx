@@ -36,7 +36,7 @@ const EventList = ({
 
   return (
     <>
-      <div className="w-[100%] md:w-[400px] flex flex-col gap-4 bg-white h-[100dvh] absolute top-0 right-0 shadow-md">
+      <div className="w-[100%] md:w-[400px] flex flex-col gap-4 bg-white h-[100dvh] z-[99] fixed top-0 right-0 shadow-md">
         <div className="flex gap-4 p-2">
           <button
             className="hover:bg-slate-100 px-2 rounded-full"
@@ -60,16 +60,16 @@ const EventList = ({
         }
         <div className="w-full h-[80%] flex flex-col justify-center items-center md:justify-start">
           {eventList?.length ? (
-            <>
+            <div className="flex flex-col gap-2 h-[90%] w-full p-2">
               <Button variant="outline" onClick={() => setVisible(true)}>
                 Schedule Another
               </Button>
-              <div className="flex flex-col gap-2 w-[80%] h-full p-2 overflow-y-auto">
+              <div className="flex flex-col gap-2 w-[99%] h-full  overflow-y-auto Scrollbar py-2">
                 {eventList?.filter((item:any)=>item?.name.includes(Search))?.map((item: any, index: number) => {
                   return (
                     <div
                       key={index}
-                      className="flex flex-col gap-2 text-sm font-medium border-2 rounded-sm shadow-sm w-full p-2"
+                      className="flex flex-col gap-2 text-sm font-medium  rounded-sm drop-shadow-md bg-blue-100/30 shadow-md w-full p-2"
                     >
                       <p>{item?.name}</p>
                       <div className="flex gap-2 text-[12px] text-zinc-600">
@@ -95,7 +95,7 @@ const EventList = ({
                   );
                 })}
               </div>
-            </>
+            </div>
           ) : (
             <div className=" flex flex-col justify-center items-center gap-4 md:h-[80%] h-[40%] shadow-lg w-[80%] md:w-full md:shadow-none">
               <h2 className="font-medium text-lg">No Event Scheduled Yet</h2>
@@ -104,6 +104,14 @@ const EventList = ({
               </Button>
             </div>
           )}
+                    {
+            !eventList?.filter((item:any)=>item?.name.includes(Search)).length ?
+            <div className="w-[100%] h-full flex justify-center">
+              <p className="font-medium">Nothing Found</p>
+            </div>
+            :
+            <></>
+          }
         </div>
       </div>
       {
