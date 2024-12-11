@@ -9,6 +9,7 @@ const EventList = ({
   events,
   HandleDelete,
   HandleEdit,
+  HandleDragStart
 }: {
   SelectedDate: Date | null;
   SetSidebarVisible: any;
@@ -16,6 +17,7 @@ const EventList = ({
   events: any;
   HandleDelete: any;
   HandleEdit: any;
+  HandleDragStart:any
 }) => {
   const { format } = new Intl.DateTimeFormat("en", {
     dateStyle: "full",
@@ -67,8 +69,11 @@ const EventList = ({
               <div className="flex flex-col gap-2 w-[99%] h-full  overflow-y-auto Scrollbar py-2">
                 {eventList?.filter((item:any)=>item?.name.includes(Search))?.map((item: any, index: number) => {
                   return (
+                    //for drag and drop had to make draggable first
                     <div
                       key={index}
+                      onDragStart={(e)=>HandleDragStart(e,item)}
+                      draggable
                       className="flex flex-col gap-2 text-sm font-medium  rounded-sm drop-shadow-md bg-blue-100/30 shadow-md w-full p-2"
                     >
                       <p>{item?.name}</p>
